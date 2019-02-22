@@ -49,6 +49,6 @@ class Game {
         this.player = player
     }
     startGame() {
-
+        
     }
 }
