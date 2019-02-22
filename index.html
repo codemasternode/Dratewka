@@ -7,16 +7,33 @@
     <title>Page Title</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
-    <script src="Equipment.js"></script>
-    <script src="Field.js"></script>
-    <script src="Item.js"></script>
-    <script src="Player.js"></script>
-    <script src="main.js"></script>
+
     <style>
         body {
             width: 100vw;
             height: 100vh;
-            background: black;
+            background: #3C3C3C;
+            color: gray;
+        }
+        .input__panel {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            width: 600px;
+        }
+        .image {
+            width: 400px;
+            height: 300px;
+            position: relative;
+            background-position: center;
+            background-size: cover;
+        }
+        .image-cover {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
         }
     </style>
     <script>
@@ -36,6 +53,11 @@
         <h3>What now?</h3>
         <input type="text" name="operational" autofocus>
     </div>
+    <script src="Equipment.js"></script>
+    <script src="Field.js"></script>
+    <script src="Item.js"></script>
+    <script src="Player.js"></script>
+    <script src="main.js"></script>
 </body>
 
 </html>

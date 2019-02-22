@@ -50,7 +50,6 @@ class Game {
 
     startGame() {
         this.player = new Player({ item: null, positionX: 7, positionY: 4 })
-        console.log(this.player)
         return {
             isSuccess: true,
             current: this.getField({
@@ -63,11 +62,9 @@ class Game {
     move({ where }) {
         for (let i = 0; i < this.fields.length; i++) {
             if (this.fields[i].positionX == this.player.positionX && this.fields[i].positionY == this.player.positionY) {
-                console.log(this.fields[i])
                 for (let k = 0; k < this.fields[i].directions.length; k++) {
                     if (where == this.fields[i].directions[k]) {
                         this.player.move(where)
-                        console.log(this.player)
                         return {
                             isSuccess: true,
                             current: this.getField({
@@ -79,7 +76,6 @@ class Game {
                 }
             }
         }
-        console.log(this.player)
         return {
             isSuccess: false,
             error: 'Niedozwolona operacja'
@@ -97,7 +93,6 @@ class Game {
 
     operation(command) {
         command = command.toLowerCase()
-        console.log(command)
         let res = undefined
         if (command == "west" || command == "w") {
             res = this.move({ where: "W" })
@@ -131,13 +126,37 @@ class Game {
 }
 
 let game = new Game()
-game.startGame()
+render(game.startGame().current)
 
 document.addEventListener("keydown", (e) => {
     if (e.code == "Enter") {
         let result = game.operation(document.querySelector('input').value)
+        render(result.data.current)
         console.log(result)
     }
 })
 
-
+function render(current) {
+    console.log(current)
+    let h3_1 = document.createElement('h3'),
+        h3_2 = document.createElement('h3'),
+        h3_3 = document.createElement('h3'),
+        h3_4 = document.createElement('h3'),
+        divek = document.createElement('div'),
+        cover = document.createElement('div')
+    h3_1.innerText = current.text
+    document.querySelector('.panel').appendChild(h3_1)
+    divek.classList.add('image')
+    cover.classList.add('image-cover')
+    divek.style.backgroundImage = `url('./img/${current.imagePath}')`
+    let color = current.color.slice(4, -2).split(",")
+    let newColor = "rgba("
+    for (let o = 0; o < color.length; o++) {
+        newColor += color[o] + ","
+    }
+    newColor += "0.4)"
+    console.log(newColor)
+    cover.style.background = newColor
+    divek.appendChild(cover)
+    document.querySelector('.panel').appendChild(divek)
+}
