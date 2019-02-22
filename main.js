@@ -40,3 +40,15 @@ fields.push(new Field({text: 'You are in a bleak funeral house',imagePath: '64.g
 fields.push(new Field({text: "You are on a path leading to the wood",imagePath: '26 i 65.gif', color: 'rgb(167,245,63)',directions: ['E','W','N'],positionX: 5, positionY: 6}))
 fields.push(new Field({text: 'You are at the edge of a forest',imagePath: '66.gif', color: 'rgb(167,245,63)',directions: ['E','W','N'],positionX: 6, positionY: 6}))
 fields.push(new Field({text: 'You are in a deep forest',imagePath: '27 i 67.gif', color: 'rgb(140,253,99)',directions: ['W'],positionX: 7, positionY: 6}))
+
+let player = new Player({item: null, positionX: 7, positionY: 4})
+
+class Game {
+    constructor() {
+        this.fields = fields
+        this.player = player
+    }
+    startGame() {
+
+    }
+}
