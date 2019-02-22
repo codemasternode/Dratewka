@@ -5,5 +5,7 @@ class Field {
         this.color = color
         this.directions = directions
         this.item = item
+        this.positionX = positionX
+        this.positionY = positionY
     }
 }

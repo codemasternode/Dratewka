@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -19,12 +20,22 @@
         }
     </style>
     <script>
-        
+
+        document.addEventListener("click", (e) => {
+            e.stopPropagation()
+            e.preventDefault()
+        }, true)
     </script>
 </head>
+
 <body>
     <div class="panel">
-        
+
+    </div>
+    <div class="input__panel">
+        <h3>What now?</h3>
+        <input type="text" name="operational" autofocus>
     </div>
 </body>
+
 </html>
