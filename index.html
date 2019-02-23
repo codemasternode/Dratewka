@@ -9,17 +9,23 @@
     <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
 
     <style>
+        @font-face {
+            font-family: 'game';
+            src: url('./press.ttf')
+        }
         body {
             width: 100vw;
             height: 100vh;
             background: #3C3C3C;
-            color: gray;
+            color: lightgray;
+            font-family: 'game' !important;
         }
         .input__panel {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            width: 600px;
+            min-width: 600px;
+            max-width: 800px;
         }
         .image {
             width: 400px;
@@ -27,6 +33,8 @@
             position: relative;
             background-position: center;
             background-size: cover;
+            border: 2px solid white;
+            
         }
         .image-cover {
             position: absolute;
@@ -34,6 +42,12 @@
             left: 0;
             width: 100%;
             height: 100%;
+        }
+        input {
+            background: #3C3C3C;
+            /* border: none; */
+            color: lightgray;
+            font-size: 24px;
         }
     </style>
     <script>

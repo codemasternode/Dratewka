@@ -55,7 +55,8 @@ class Game {
             current: this.getField({
                 positionX: this.player.positionX,
                 positionY: this.player.positionY
-            })
+            }),
+            player: this.player
         }
     }
 
@@ -129,7 +130,11 @@ class Game {
 }
 
 let game = new Game()
-render(game.startGame().current)
+let init = game.startGame()
+render(init.current)
+let h3_4 = document.createElement('h3')
+h3_4.innerText = init.player.getItem()
+document.querySelector('.panel').appendChild(h3_4)
 
 document.addEventListener("keydown", (e) => {
     let panel = document.querySelector('.panel')
