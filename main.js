@@ -41,6 +41,7 @@ fields.push(new Field({ text: "You are on a path leading to the wood", imagePath
 fields.push(new Field({ text: 'You are at the edge of a forest', imagePath: '66.gif', color: 'rgb(167,245,63)', directions: ['E', 'W', 'N'], positionX: 6, positionY: 6 }))
 fields.push(new Field({ text: 'You are in a deep forest', imagePath: '27 i 67.gif', color: 'rgb(140,253,99)', directions: ['W'], positionX: 7, positionY: 6 }))
 
+let flag = 0
 
 class Game {
     constructor() {
@@ -93,38 +94,64 @@ class Game {
     }
 
     operation(command) {
-        command = command.toLowerCase()
-        let res = undefined
-        if (command == "west" || command == "w") {
-            res = this.move({ where: "W" })
-        } else if (command == "east" || command == "e") {
-            res = this.move({ where: "E" })
-        } else if (command == "south" || command == "s") {
-            res = this.move({ where: "S" })
-        } else if (command == "north" || command == "n") {
-            res = this.move({ where: "N" })
-        }
+        if (flag != 1) {
+            command = command.toLowerCase()
+            let res = undefined
+            if (command == "west" || command == "w") {
+                res = this.move({ where: "W" })
+            } else if (command == "east" || command == "e") {
+                res = this.move({ where: "E" })
+            } else if (command == "south" || command == "s") {
+                res = this.move({ where: "S" })
+            } else if (command == "north" || command == "n") {
+                res = this.move({ where: "N" })
+            } else if (command == 'gossips' || command == "g") {
+                return {
+                    isSuccess: true,
+                    gossip: `"The  woodcutter lost  his home key..."
+                    "The butcher likes fruit... The cooper"
+                    "is greedy... Dratewka plans to make a"
+                    "poisoned  bait for the dragon...  The"
+                    "tavern owner is buying food  from the"
+                    "pickers... Making a rag from a bag..."
+                    "Press any key"
+                `
+                }
+            }
 
-        if (!res) {
+            if (!res) {
+                return {
+                    isSuccess: true,
+                    gossip: `"NORTH or N, SOUTH or S"
+                    "WEST or W, EAST or E"
+                    "TAKE (object) or T (object)"
+                    "DROP (object) or D (object)"
+                    "USE (object) or U (object)"
+                    "GOSSIPS or G, VOCABULARY or V"
+                    "Press any key"`
+                }
+            }
+            if (!res.isSuccess) {
+                return {
+                    isSuccess: false,
+                    error: 'Niedozwolona operacja',
+                    player: this.player
+                }
+            }
+
             return {
-                isSuccess: false,
-                error: 'Nie ma takiej komendy',
+                isSuccess: true,
+                data: res,
                 player: this.player
             }
-        }
-        if (!res.isSuccess) {
+        } else {
+            flag = 0
             return {
-                isSuccess: false,
-                error: 'Niedozwolona operacja',
-                player: this.player
+                isSuccess: true,
+                flag: true
             }
         }
 
-        return {
-            isSuccess: true,
-            data: res,
-            player: this.player
-        }
     }
 
 }
@@ -135,25 +162,47 @@ render(init.current)
 let h3_4 = document.createElement('h3')
 h3_4.innerText = init.player.getItem()
 document.querySelector('.panel').appendChild(h3_4)
+let temporary = []
 
 document.addEventListener("keydown", (e) => {
     let panel = document.querySelector('.panel')
     if (e.code == "Enter") {
         let result = game.operation(document.querySelector('input').value)
-        if (!result.isSuccess) {
-            renderError(result.error)
-        } else {
-            while (panel.firstChild) {
-                panel.removeChild(panel.firstChild)
+        console.log(result)
+        if (result.gossip) {
+            temporary = []
+            console.log('asd')
+            let m = 0
+            while (panel.lastChild && m < 3) {
+                m++
+                temporary.push(panel.lastChild)
+                panel.removeChild(panel.lastChild)
             }
-            render(result.data.current)
-            let h3_4 = document.createElement('h3')
-            h3_4.innerText = result.player.getItem()
-            panel.appendChild(h3_4)
-            console.log(result)
+            let hm10 = document.createElement('h3')
+            hm10.innerText = result.gossip
+            panel.appendChild(hm10)
+            flag = 1
+            console.log(temporary)
+        } else if (result.flag) {
+            console.log('TTTo')
+            panel.removeChild(panel.lastChild)
+            for (let temporar of temporary) {
+                panel.appendChild(temporar)
+            }
+        } else {
+            if (!result.isSuccess) {
+                renderError(result.error)
+            } else {
+                while (panel.firstChild) {
+                    panel.removeChild(panel.firstChild)
+                }
+                render(result.data.current)
+                let h3_4 = document.createElement('h3')
+                h3_4.innerText = result.player.getItem()
+                panel.appendChild(h3_4)
+                console.log(result)
+            }
         }
-
-
     }
 })
 
