@@ -107,19 +107,22 @@ class Game {
         if (!res) {
             return {
                 isSuccess: false,
-                error: 'Nie ma takiej komendy'
+                error: 'Nie ma takiej komendy',
+                player: this.player
             }
         }
         if (!res.isSuccess) {
             return {
                 isSuccess: false,
-                error: 'Niedozwolona operacja'
+                error: 'Niedozwolona operacja',
+                player: this.player
             }
         }
 
         return {
             isSuccess: true,
-            data: res
+            data: res,
+            player: this.player
         }
     }
 
@@ -129,23 +132,36 @@ let game = new Game()
 render(game.startGame().current)
 
 document.addEventListener("keydown", (e) => {
+    let panel = document.querySelector('.panel')
     if (e.code == "Enter") {
         let result = game.operation(document.querySelector('input').value)
-        render(result.data.current)
-        console.log(result)
+        if (!result.isSuccess) {
+            renderError(result.error)
+        } else {
+            while (panel.firstChild) {
+                panel.removeChild(panel.firstChild)
+            }
+            render(result.data.current)
+            let h3_4 = document.createElement('h3')
+            h3_4.innerText = result.player.getItem()
+            panel.appendChild(h3_4)
+            console.log(result)
+        }
+
+
     }
 })
 
 function render(current) {
-    console.log(current)
+    let panel = document.querySelector('.panel')
     let h3_1 = document.createElement('h3'),
-        h3_2 = document.createElement('h3'),
-        h3_3 = document.createElement('h3'),
-        h3_4 = document.createElement('h3'),
         divek = document.createElement('div'),
-        cover = document.createElement('div')
+        cover = document.createElement('div'),
+        h3_2 = document.createElement('h3'),
+        h3_3 = document.createElement('h3')
     h3_1.innerText = current.text
-    document.querySelector('.panel').appendChild(h3_1)
+    console.log(current)
+    panel.appendChild(h3_1)
     divek.classList.add('image')
     cover.classList.add('image-cover')
     divek.style.backgroundImage = `url('./img/${current.imagePath}')`
@@ -158,5 +174,22 @@ function render(current) {
     console.log(newColor)
     cover.style.background = newColor
     divek.appendChild(cover)
-    document.querySelector('.panel').appendChild(divek)
+    panel.appendChild(divek)
+    h3_2.innerText = "You can go "
+    for (let direction of current.directions) {
+        h3_2.innerText += direction + ", "
+    }
+    panel.appendChild(h3_2)
+    if (!current.item) {
+        h3_3.innerText = "You see nothing"
+    } else {
+        h3_3.innerText = "You see " + current.item
+    }
+    panel.appendChild(h3_3)
+    document.querySelector('.input__panel h3').innerHTML = 'What now?'
+}
+
+
+function renderError(error) {
+    document.querySelector('.input__panel h3').innerHTML = error
 }

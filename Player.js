@@ -1,5 +1,5 @@
 class Player {
-    constructor({ positionX, positionY, item }) {
+    constructor({ positionX, positionY, item = null }) {
         this.positionX = positionX
         this.positionY = positionY
         this.item = item
@@ -16,4 +16,13 @@ class Player {
             this.positionY -= 1
         }
     }
+
+    getItem() {
+        if (!this.item) {
+            return "You are carrying nothing"
+        } else {
+            return "You are carrying " + this.item
+        }
+    }
+
 }
